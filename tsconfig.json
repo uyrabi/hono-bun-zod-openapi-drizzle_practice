@@ -4,6 +4,10 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "strict": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    },
     "lib": [
       "ESNext"
     ],

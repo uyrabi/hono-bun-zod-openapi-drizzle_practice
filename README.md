@@ -34,5 +34,19 @@
 - しばらく待つとプロジェクトの作成が完了します。
 - 作成されたプロジェクトのディレクトリに移動します。例えば、`cd my-hono-project`を実行します。
 - プロジェクトの依存関係をインストールします。ディレクトリ内で`bun install`を実行します。
-- プロジェクトが正しく作成されたことを確認するために、`bun run --hot src/index.ts`を実行してローカルサーバーを起動します。
+- `mkdir src/routes`でファイルベースルーティング用のディレクトリを作成します。
+- `mv src/index.ts src/routes/server.ts`でエントリーポイントを変更します。
+- `tsconfig.json`に`baseUrl`と`@`を定義しておきます。
+- プロジェクトが正しく作成されたことを確認するために、`bun run --hot src/routes/server.ts`を実行してローカルサーバーを起動します。
 - ブラウザを開き、`http://localhost:3000`にアクセスして、honoプロジェクトが正しく動作していることを確認します。
+
+## zod-openapi
+
+- `bun add hono zod @hono/zod-openapi`
+- `mkdir src/schema`でスキーマ用ディレクトリを作成します。
+- `touch src/schema/user.ts`でUserのSchemaファイルを作成します。
+- `mkdir src/routes/users`でuserのapi用ディレクトリを作成します。
+- `touch src/users/api.ts`でuserのapiファイルを作成します。
+-- `sample/src/schema/user.ts`を参考に内容を記述します。
+
+# drizzle(pg)
