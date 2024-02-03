@@ -1,6 +1,7 @@
+// import 'bun:dotenv';
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi'
-import { UserSchema } from '@/schema/user';
-import { UserParamsSchema } from '@/schema/params/user';
+import { UserSchema } from '@/schemas/validations/user';
+import { UserParamsSchema } from '@/schemas/requests/users/user';
 
 const openApiRoute = new OpenAPIHono();
 
@@ -27,7 +28,7 @@ openApiRoute.openapi(userRoute, (c) => {
     console.log("hogehogehogeaaa")
     return c.json({
       id,
-      age: 20,
+      age: 21,
       name: 'Ultra-man',
     })
   })

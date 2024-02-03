@@ -5,11 +5,14 @@
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.9.6",
+    "drizzle-orm": "^0.29.3",
+    "drizzle-zod": "^0.5.1",
     "hono": "^3.12.9",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240129.0",
+    "drizzle-kit": "^0.20.14",
     "wrangler": "^3.25.0"
   }
 }

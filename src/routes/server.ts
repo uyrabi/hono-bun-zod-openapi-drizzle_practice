@@ -1,5 +1,6 @@
 import { OpenAPIHono } from '@hono/zod-openapi'
-import { userRoute } from "./users/api";
+import { userRoute } from "./users/mypage";
+import { userPostRoute } from "./users/login";
 
 const app = new OpenAPIHono()
 
@@ -8,7 +9,14 @@ app.openapi(userRoute, (c) => {
   return c.json({
     id,
     age: 20,
-    name: 'Ultra-man',
+    name: 'Ultra-man:' + Bun.env.TEST_ENV,
+  })
+})
+
+app.openapi(userPostRoute, async (c) => {
+  const body = await c.req.valid('json');
+  return c.json({
+    password: "c.req only\n",
   })
 })
 

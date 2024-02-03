@@ -1,4 +1,30 @@
 
+# [WIP]ディレクトリ構成
+
+## schemas
+
+- それぞれの型・バリデーションを定義する
+
+### models
+
+- モデルを担当
+
+### requests
+
+- リクエストを担当
+
+### responses
+
+- レスポンスを担当
+
+## routes
+
+- APIエンドポイントを実装する
+- hono v4で実装予定のファイルベースルーティングを採用
+
+### server.ts
+
+- エントリーポイント
 
 # Bun
 
@@ -46,7 +72,21 @@
 - `mkdir src/schema`でスキーマ用ディレクトリを作成します。
 - `touch src/schema/user.ts`でUserのSchemaファイルを作成します。
 - `mkdir src/routes/users`でuserのapi用ディレクトリを作成します。
-- `touch src/users/api.ts`でuserのapiファイルを作成します。
+- `touch src/users/mypage.ts`でuserのapiファイルを作成します。
 -- `sample/src/schema/user.ts`を参考に内容を記述します。
 
 # drizzle(pg)
+
+- `bun add drizzle-orm drizzle-zod`で
+- `bun add -D drizzle-kit`で
+- `touch .env`で
+- `touch drizzle.config.ts`で
+- `mkdir src/db && touch src/db/schema.ts`で
+- `docker-compose up`でdockerコンテナをビルド・起動します
+- 次のコマンドでレスポンスが返ってくることを確認します
+-- ※Content-Typeが`application/x-www-form-urlencoded`の状態だと`c.req.parseBody()`を使用する必要がある
+```
+curl -X POST http://localhost:3000/users/post \
+     -H "Content-Type: application/json" \
+     -d '{"password": "hogefuga"}'
+```
