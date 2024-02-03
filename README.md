@@ -90,3 +90,17 @@ curl -X POST http://localhost:3000/users/post \
      -H "Content-Type: application/json" \
      -d '{"password": "hogefuga"}'
 ```
+
+# 参考
+
+- Bun + hono + zod-openAPI
+https://github.com/openstatusHQ/openstatus/tree/main
+
+- drizzle-kit
+https://zenn.dev/satonopan/articles/9182a9eda4d574
+
+- drizzle-zod
+https://zenn.dev/mt_southern/scraps/e6f4d256f07353
+
+- swagger-ui Prism
+https://zenn.dev/kigi/articles/bb446df063ff54
