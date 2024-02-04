@@ -10,6 +10,7 @@ import { TrieRouter } from 'hono/router/trie-router';
 class BaseModel {
     // TODO: modelファイルをロジックとスキーマに分ける
     // TODO: ロジックはmodels/【モデル】ディレクトリに、スキーマはschemas/【types】ディレクトリに配置する
+    // TODO: ロジックのうち、DBにアクセスするものは別ディレクトリ（Repositry層？）に配置する
     static table: MySqlTableWithColumns<any> = mysqlTable('dummy', {});
     static commonValidation = { deleted_at: z.date().optional() };
     static insertValidation = {};
