@@ -6,11 +6,9 @@ import { z } from "zod";
 import { eq } from 'drizzle-orm';
 import { db } from 'db';
 
-import { userTable } from '@/schemas/db/tables/user';
-
 class BaseModel {
     static table = mysqlTable('dummy', {});
-    static commonValidation = {};
+    static commonValidation = { deleted_at: z.date().optional() };
     static insertValidation = {};
     static selectValidation = {};
     static selectSchema = createSelectSchema(this.table, { ...this.commonValidation, ...this.selectValidation });
@@ -20,14 +18,24 @@ class BaseModel {
     //     console.log(":", this.insertSchema._def.shape()[propertyName]);
     // }
 
+    static initializeSystemColumns(properties = {}) {
+        const now = new Date();
+        return {
+            ...properties,
+            created_at: now,
+            updated_at: now
+        };
+    }
+
     static initializeSchema(table = this.table) {
         this.selectSchema = createSelectSchema(table, { ...this.commonValidation, ...this.selectValidation });
         this.insertSchema = createInsertSchema(table, { ...this.commonValidation, ...this.insertValidation });
     }
 
-    static showValidationErrors(parsedData, timing: string = "insert") {
+    static showValidationErrors(parsedData, properties, timing: string = "insert") {
         console.error("************************************")
         console.error(`${timing} validation error occured!`);
+        console.error("properties:", properties);
         parsedData.error.errors.forEach((error) => {
             console.log(error["path"], error["message"])
         });
@@ -35,22 +43,22 @@ class BaseModel {
         throw new Error("validation errors");
     }
 
-    static checkInsertValidation(values, validationRules = {}) {
+    static checkInsertValidation(properties, validationRules = {}) {
         this.initializeSchema();
         if (Object.keys(validationRules).length === 0) validationRules = this.selectSchema;
-        const parsedData = validationRules.safeParse(values);
+        const parsedData = validationRules.omit({ id: true }).safeParse(properties);
         if (!parsedData.success) {
-            this.showValidationErrors(parsedData, "insert");
+            this.showValidationErrors(parsedData, properties, "insert");
         }
         return parsedData;
     }
 
-    static checkSelectValidation(values, validationRules = {}) {
+    static checkSelectValidation(properties, validationRules = {}) {
         this.initializeSchema();
         if (Object.keys(validationRules).length === 0) validationRules = this.selectSchema;
-        const parsedData = validationRules.safeParse(values);
+        const parsedData = validationRules.safeParse(properties);
         if (!parsedData.success) {
-            this.showValidationErrors(parsedData, "select");
+            this.showValidationErrors(parsedData, properties, "select");
         }
         return parsedData;
     }
@@ -65,13 +73,14 @@ class BaseModel {
         return result;
     }
 
-    static async create(values): Promise<any> {
-        const checkValidationResult = this.checkInsertValidation(values);
+    static async create(properties): Promise<any> {
+        properties = this.initializeSystemColumns(properties);
+        const checkValidationResult = this.checkInsertValidation(properties);
         console.log("check insert validation result:", checkValidationResult);
         if (!checkValidationResult.success) {
             this.showValidationErrors(checkValidationResult);
         }
-        const result = await db.insert(this.table).values(values);
+        const result = await db.insert(this.table).values(properties);
         return result;
     }
 
