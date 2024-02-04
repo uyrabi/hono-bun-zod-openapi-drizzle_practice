@@ -1,3 +1,20 @@
+# 使用技術
+
+- hono
+  - Webフレームワーク
+- Bun
+  - Node.js互換JSランタイム
+- drizzle-zod
+  - ORM × バリデーション
+- zod-openapi
+  - バリデーション × API仕様書
+- swagger-ui
+  - OpenAPIスキーマのビューワ
+- openapi-generator
+  - OpenAPIスキーマからコード生成？
+- prism
+  - OpenAPIスキーマからモックサーバーの公開？
+
 # [WIP]ディレクトリ構成
 
 ## schemas
