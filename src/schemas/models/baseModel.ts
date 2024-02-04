@@ -32,12 +32,12 @@ class BaseModel {
         this.insertSchema = createInsertSchema(table, { ...this.commonValidation, ...this.insertValidation });
     }
 
-    static showValidationErrors(parsedData: { success: boolean, error: Function }, properties: {}, timing: string = "insert") {
+    static showValidationErrors(parsedData: { success: boolean, error: any }, properties: {}, timing: string = "insert") {
         console.error("************************************")
         console.error(`${timing} validation error occured!`);
         console.error("parsedData:", parsedData);
         console.error("properties:", properties);
-        (parsedData.error as any).errors.forEach((error: { path: string, message: string }) => {
+        parsedData.error.errors.forEach((error: { path: string, message: string }) => {
             console.log(error["path"], error["message"])
         });
         console.error("************************************")
