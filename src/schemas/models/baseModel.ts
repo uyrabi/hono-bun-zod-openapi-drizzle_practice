@@ -5,8 +5,11 @@ import { z } from "zod";
 
 import { eq } from 'drizzle-orm';
 import { db } from 'db';
+import { TrieRouter } from 'hono/router/trie-router';
 
 class BaseModel {
+    // TODO: modelファイルをロジックとスキーマに分ける
+    // TODO: ロジックはmodels/【モデル】ディレクトリに、スキーマはschemas/【types】ディレクトリに配置する
     static table: MySqlTableWithColumns<any> = mysqlTable('dummy', {});
     static commonValidation = { deleted_at: z.date().optional() };
     static insertValidation = {};
@@ -42,6 +45,12 @@ class BaseModel {
         });
         console.error("************************************")
         throw new Error("validation errors");
+    }
+
+    // TODO: このメソッドは削除するか、修正する
+    // DBに保存されているかどうかを判定するためのメソッド
+    static isPersisted() {
+        return TrieRouter;
     }
 
     static checkInsertValidation(properties: {}, validationRules = {}) {
