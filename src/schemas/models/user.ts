@@ -1,17 +1,14 @@
-import { z } from '@hono/zod-openapi'
+import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
-const UserSchema = z
-.object({
-    id: z.string().openapi({
-    example: '123',
-    }),
-    name: z.string().openapi({
-    example: 'John Doe',
-    }),
-    age: z.number().openapi({
-    example: 42,
-    }),
-})
-.openapi('User')
+import { BaseModel } from '@/schemas/models/baseModel';
+import { userTable as table } from '@/schemas/db/tables/user';
 
-export { UserSchema };
+class User extends BaseModel {
+    static targetTable = table;
+    static commonValidation = { email: z.string().email() };
+    static selectSchema = createSelectSchema(table, { ...this.commonValidation, ...this.selectValidation });
+    static insertSchema = createInsertSchema(table, { ...this.commonValidation, ...this.insertValidation });
+}
+
+export { User };

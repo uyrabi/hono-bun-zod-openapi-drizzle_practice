@@ -5,13 +5,18 @@
   },
   "dependencies": {
     "@hono/zod-openapi": "^0.9.6",
+    "dotenv": "^16.4.1",
     "drizzle-orm": "^0.29.3",
     "drizzle-zod": "^0.5.1",
     "hono": "^3.12.9",
+    "mysql2": "^3.9.1",
+    "pg": "^8.11.3",
+    "postgres": "^3.4.3",
     "zod": "^3.22.4"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240129.0",
+    "@types/pg": "^8.11.0",
     "drizzle-kit": "^0.20.14",
     "wrangler": "^3.25.0"
   }

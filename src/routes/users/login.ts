@@ -1,12 +1,12 @@
 // import 'bun:dotenv';
 import { createRoute, OpenAPIHono } from '@hono/zod-openapi';
 import { ErrorSchema } from '@/schemas/responses/common/errors';
-import { UserPostRequestSchema } from '@/schemas/requests/users/post';
-import { UserPostResponseSchema } from '@/schemas/responses/users/post';
+// import { UserLoginRequestSchema } from '@/schemas/requests/users/login';
+import { UserLoginResponseSchema } from '@/schemas/responses/users/login';
 
 const openApiRoute = new OpenAPIHono();
 
-const userPostRoute = createRoute({
+const userLoginRoute = createRoute({
   method: 'post',
   path: '/users/post',
   // request: {
@@ -23,7 +23,7 @@ const userPostRoute = createRoute({
     200: {
       content: {
         'application/json': {
-          schema: UserPostResponseSchema,
+          schema: UserLoginResponseSchema,
         },
       },
       description: 'Retrieve the user',
@@ -39,14 +39,14 @@ const userPostRoute = createRoute({
   },
 })
 
-openApiRoute.openapi(userPostRoute, async (c) => {
+openApiRoute.openapi(userLoginRoute, async (c) => {
     console.log(c.req);
-    const  body = await c.req.parseBody();
+    const { id } = await c.req.json().valid('json');
     // const { password } = input;
     // console.log("hogehogehogxxxxxxxxxeaaa")
     return await c.json({
-      paqqqRssword: 'qqqqqqqqqqqq',
+      id,
     })
   })
 
-export { userPostRoute };
+export { userLoginRoute };

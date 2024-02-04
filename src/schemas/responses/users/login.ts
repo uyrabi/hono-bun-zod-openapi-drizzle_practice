@@ -1,10 +1,8 @@
 import { z } from '@hono/zod-openapi'
+import { User } from '@/schemas/models/user';
 
-const UserPostResponseSchema = z.object({
-    password: z
-      .string()
-      .min(4)
-      .max(16),
-    })
+const UserLoginResponseSchema = User.selectSchema.pick(
+  { id: true, email: true, username: true }
+  ).openapi('User');
 
-export { UserPostResponseSchema };
+export { UserLoginResponseSchema };

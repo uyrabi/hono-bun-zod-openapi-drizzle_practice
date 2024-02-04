@@ -5,23 +5,40 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     volumes:
-      - ./:/app/
+      - ./:/var/www/html
+    env_file:
+      - .env.development
     ports:
       - "3000:3000"
     depends_on:
       - db
     links:
       - db
-  db:
-    image: postgres:13.13-bullseye
-    environment:
-      POSTGRES_DB: hono_db
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_INITDB_ARGS: '--encoding=UTF8 --locale=ja_JP.UTF-8'
-      TZ: 'Asia/Tokyo'
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     networks:
       - auto_answer_network
+
+  db:
+    image: mysql:8.0
+    volumes:
+      - db_data:/var/lib/mysql
+    env_file:
+      - .env.development
+    environment:
+      TZ: 'Asia/Tokyo'
+    ports:
+      - "3306:3306"
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    networks:
+      - auto_answer_network
+
+volumes:
+  db_data:
 
 networks:
   auto_answer_network:
