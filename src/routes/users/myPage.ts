@@ -3,11 +3,16 @@ import { createRoute, OpenAPIHono } from '@hono/zod-openapi'
 import { UserMyPageResponseSchema } from '@/schemas/responses/users/myPage';
 import { UserMyPageRequestSchema } from '@/schemas/requests/users/myPage';
 
-const openApiRoute = new OpenAPIHono();
+import { User } from '@/schemas/models/user';
 
-const userMyPageRoute = createRoute({
+import { userTable } from '@/schemas/db/tables/user';
+
+import { eq } from 'drizzle-orm';
+import { db } from 'db';
+
+const myPageRoute = createRoute({
   method: 'get',
-  path: '/users/{id}',
+  path: '/:id',
   request: {
     params: UserMyPageRequestSchema,
   },
@@ -23,16 +28,44 @@ const userMyPageRoute = createRoute({
   },
 })
 
-openApiRoute.openapi(userMyPageRoute, (c) => {
-  const id = c.req.valid('param');
-  const email = "test@hoge.com";
-  const username = "testuser";
-  console.log("hogehogehogeaaa")
-  return c.json({
-    id,
-    email,
-    username
-  })
-})
+const myPageHandler = async (c) => {
+  console.log('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX');
+  const id = c.req.valid('param')
 
-export { userMyPageRoute };
+  const username = `taro_${new Date().getMinutes()}_${new Date().getSeconds()}`;
+  const newUserValues = {
+    username: username,
+    email: `${username}@foobar.com`,
+    password: '1234abcd',
+    created_at: new Date(),
+    updated_at: new Date()
+  };
+  console.log("newUserValues:", newUserValues);
+  const parsedData = User.insertSchema.safeParse(newUserValues);
+  console.log("parsedData:", parsedData);
+  if (!parsedData.success) {
+    console.log("validation errors:", parsedData.error);
+  }
+  console.log('start insert...');
+  // const newUserResult = await db.insert(userTable).values(newUserValues);
+  const newUserResult = await User.create(newUserValues);
+  const newUserId = newUserResult[0].insertId;
+  const newUser = await db.select().from(userTable).where(eq(userTable.id, newUserId));
+  console.log('newUserId:', newUserId);
+  const newUserFind = await User.find(newUserId);
+  console.log('newUserFind:', newUserFind)
+
+
+  console.log("User:", User);
+  console.log("newUserResult[0]:", newUserResult[0]);
+
+  return c.json(newUser);
+
+  // return c.json({
+  //   id,
+  //   age: 20,
+  //   name: 'Ultra-man:'
+  // })
+};
+
+export { myPageRoute, myPageHandler };

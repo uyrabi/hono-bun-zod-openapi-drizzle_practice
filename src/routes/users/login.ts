@@ -4,21 +4,9 @@ import { ErrorSchema } from '@/schemas/responses/common/errors';
 // import { UserLoginRequestSchema } from '@/schemas/requests/users/login';
 import { UserLoginResponseSchema } from '@/schemas/responses/users/login';
 
-const openApiRoute = new OpenAPIHono();
-
-const userLoginRoute = createRoute({
+const loginRoute = createRoute({
   method: 'post',
-  path: '/users/post',
-  // request: {
-  //   body: {
-  //       description: 'The user password',
-  //       content: {
-  //         'application/json': {
-  //           schema: UserPostRequestSchema,
-  //         },
-  //       },
-  //   },
-  // },
+  path: '/login',
   responses: {
     200: {
       content: {
@@ -30,23 +18,20 @@ const userLoginRoute = createRoute({
     },
     400: {
       description: 'Bad Request',
-    content: {
-      'application/json': {
-        schema: ErrorSchema,
-      },
-    }
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      }
     },
   },
 })
 
-openApiRoute.openapi(userLoginRoute, async (c) => {
-    console.log(c.req);
-    const { id } = await c.req.json().valid('json');
-    // const { password } = input;
-    // console.log("hogehogehogxxxxxxxxxeaaa")
-    return await c.json({
-      id,
-    })
+const loginHandler = async (c) => {
+  const { id, email, username } = await c.req.json().valid('json');
+  return c.json({
+    password: "c.req only\n",
   })
+};
 
-export { userLoginRoute };
+export { loginRoute, loginHandler };
