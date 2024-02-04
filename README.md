@@ -5,9 +5,9 @@
 - Bun
   - Node.js互換JSランタイム
 - drizzle-zod
-  - ORM × バリデーション
+  - ORM（drizzle） × バリデーション（zod）
 - zod-openapi
-  - バリデーション × API仕様書
+  - バリデーション（zod） × API仕様書（OpenAPI）
 - swagger-ui
   - OpenAPIスキーマのビューワ
 - openapi-generator
