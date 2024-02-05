@@ -17,6 +17,28 @@
 
 # [WIP]ディレクトリ構成
 
+- routes
+  - 【名前空間】
+    - 【API名】.ts
+- models
+  - 【モデル名】
+    - index.ts
+    - table.ts
+    - repository.ts
+    - service.ts
+    - schema.ts
+  - commonSchema.ts
+- apis
+  - 【名前空間】
+    - 【API名】
+      - index.ts
+      - handler.ts
+      - schema.ts
+  - commonSchema.ts
+- middlewares
+- utils
+  - constants.ts
+
 ## schemas
 
 - それぞれの型・バリデーションを定義する
