@@ -2,6 +2,6 @@ import { RepositoryTypes } from './schema';
 
 export class Repository {
     constructor() {
-        console.log('User.Repository');
+        console.log('Hi. I am User.Repository');
     }
 }
