@@ -7,9 +7,13 @@ console.info("\n------ START REPL\n");
 
 ////// ここにコードを書く //////
 
-import { Repository as UserRepository } from "@/schemas/models/users";
+import { UserRepository } from "@/schemas/models/users";
 
-const userRepository = new UserRepository();
+// const userRepository = UserRepository;
+
+const user = await UserRepository.findById(1);
+
+console.log('user:', user);
 
 ////////   ここまで   ////////
 

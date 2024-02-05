@@ -8,6 +8,6 @@ export const tableSchema = mysqlTable('user', {
     username: varchar('username', { length: 16 }).notNull().unique(),
 });
 
-export class Table {
-    static schema = tableSchema;
-}
+// export class Table {
+//     static schema = tableSchema;
+// }

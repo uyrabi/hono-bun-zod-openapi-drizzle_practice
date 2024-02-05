@@ -10,11 +10,11 @@ import { tableSchema } from './table';
 const zodSelectSchema = createSelectSchema(tableSchema);
 const zodInsertSchema = createInsertSchema(tableSchema);
 
-type InsertType = z.infer<typeof zodInsertSchema>;
-type SelectType = z.infer<typeof zodSelectSchema>;
+export type InsertType = z.infer<typeof zodInsertSchema>;
+export type SelectType = z.infer<typeof zodSelectSchema>;
 
 export type RepositoryTypes = {
-    findById: (id: number) => Promise<Omit<SelectType, 'name'> | null>;
+    findById: (id: number) => Promise<SelectType | null>;
     create: (params: Omit<InsertType, 'id'>) => Promise<Omit<SelectType, 'name'> | null>;
 }
 
