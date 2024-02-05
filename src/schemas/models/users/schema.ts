@@ -14,8 +14,9 @@ export type InsertType = z.infer<typeof zodInsertSchema>;
 export type SelectType = z.infer<typeof zodSelectSchema>;
 
 export type RepositoryTypes = {
+    newInstance: () => Promise<Omit<InsertType, 'id'>>;
     findById: (id: number) => Promise<SelectType | null>;
-    create: (params: Omit<InsertType, 'id'>) => Promise<Omit<SelectType, 'name'> | null>;
+    create: (params: Omit<InsertType, 'id'>) => Promise<InsertType | null>;
 }
 
 export type ServiceTypes = {

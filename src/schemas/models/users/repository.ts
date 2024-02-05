@@ -16,15 +16,28 @@ class Repository implements RepositoryTypes {
         return Repository.instance;
     }
 
+    async newInstance(): Promise<Omit<InsertType, 'id'>> {
+        const properties = {
+            email: '',
+            password: '',
+            username: '',
+        }
+        return properties;
+    }
+
     async findById(id: number): Promise<SelectType | null> {
         // findByIdの実装
         const record = await db.select().from(tableSchema).where(eq(tableSchema.id, id));
         return record[0];
     }
 
-    async create(params: Omit<InsertType, 'id'>): Promise<Omit<SelectType, 'name'> | null> {
-        // createの実装
-        return null;
+    async create(params: Omit<InsertType, 'id'>): Promise<InsertType | null> {
+        // findByIdの実装
+        const newRecordResult = await db.insert(tableSchema).values(params);
+        const newRecordId = newRecordResult[0].insertId;
+        const newRecord = this.findById(newRecordId);
+
+        return newRecord;
     }
 }
 
