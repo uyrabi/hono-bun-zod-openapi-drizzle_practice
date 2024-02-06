@@ -7,8 +7,14 @@ import { tableSchema } from './table';
 // 型ユーティリティ: Pick, Omit, Partial, Required, Readonly, Record, Exclude, Extract
 // z.infer<typeof Hoge> で型を取得できる
 
+console.log("tableSchema:", tableSchema['created_at'].default);
+
+// const defaultValues = getDefaultValues();
+// console.log("デフォルト値:", defaultValues);
+
+
 const zodSelectSchema = createSelectSchema(tableSchema);
-const zodInsertSchema = createInsertSchema(tableSchema);
+export const zodInsertSchema = createInsertSchema(tableSchema);
 
 export type InsertType = z.infer<typeof zodInsertSchema>;
 export type SelectType = z.infer<typeof zodSelectSchema>;

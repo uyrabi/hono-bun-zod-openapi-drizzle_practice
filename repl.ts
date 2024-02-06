@@ -11,6 +11,10 @@ import { UserRepository } from "@/schemas/models/users";
 
 // const userRepository = UserRepository;
 
+const userInstance = await UserRepository.newValues();
+
+console.log('userInstance:', userInstance);
+
 const user = await UserRepository.findById(1);
 
 console.log('user:', user);
