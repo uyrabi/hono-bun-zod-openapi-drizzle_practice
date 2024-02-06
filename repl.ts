@@ -8,16 +8,17 @@ console.info("\n------ START REPL\n");
 ////// ここにコードを書く //////
 
 import { UserRepository } from "@/schemas/models/users";
+import { PostRepository } from "@/schemas/models/posts";
 
 // const userRepository = UserRepository;
 
-const userInstance = await UserRepository.newValues();
+const postInstance = await PostRepository.newValues();
 
-console.log('userInstance:', userInstance);
+console.log('postInstance:', postInstance);
 
-const user = await UserRepository.findById(1);
+const post = await PostRepository.findById(1);
 
-console.log('user:', user);
+console.log('post:', post);
 
 ////////   ここまで   ////////
 

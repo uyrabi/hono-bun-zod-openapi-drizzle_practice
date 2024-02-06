@@ -3,6 +3,6 @@ import { User } from '@/schemas/models/user';
 
 const UserLoginRequestSchema = User.selectSchema.pick(
   { email: true, password: true }
-  ).openapi('User');
+).openapi('User');
 
 export { UserLoginRequestSchema };

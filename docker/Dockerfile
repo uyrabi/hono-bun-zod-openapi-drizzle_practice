@@ -5,7 +5,7 @@ WORKDIR /var/www/html
 
 RUN bun create hono .
 
-RUN bun add hono zod @hono/zod-openapi mysql2 drizzle-orm drizzle-zod dotenv
+RUN bun add hono@4.0.0-rc.4 zod @hono/zod-openapi mysql2 drizzle-orm drizzle-zod dotenv
 RUN bun add -D drizzle-kit
 
 RUN bun install

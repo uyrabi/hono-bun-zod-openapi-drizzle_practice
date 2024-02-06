@@ -1,4 +1,4 @@
-import { mysqlTable, varchar } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, MySqlTableWithColumns } from 'drizzle-orm/mysql-core';
 import { commonSchemas } from '../commonSchemas';
 
 export const tableSchema = mysqlTable('user', {
@@ -7,7 +7,3 @@ export const tableSchema = mysqlTable('user', {
     password: varchar('password', { length: 16 }).notNull(),
     username: varchar('username', { length: 16 }).notNull().unique().default('default man'),
 });
-
-// export class Table {
-//     static schema = tableSchema;
-// }
